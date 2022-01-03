@@ -1,27 +1,6 @@
 import re
 
 
-def parse_element(element):
-    (quantity, compound) = element.strip().split(" ")
-    return compound, int(quantity)
-
-
-def parse_rule(element):
-    (quantity_range, letter, password) = element.strip().split(" ")
-    (qmin, qmax) = quantity_range.split("-")
-    letter = letter[0]
-    return (letter, (int(qmin), int(qmax))), password
-
-
-def parse_passport(element):
-    elems = element.split(" ")
-    passport = {}
-    for elem in elems:
-        (k, v) = elem.split(":")
-        passport[k] = v
-    return passport
-
-
 class LoadValues:
     file = 'input'
     raw_values = None
@@ -59,26 +38,6 @@ class LoadValues:
         self.processed_values = groups
         return groups
 
-    def passportlist_parse(self, raw=None):
-        if raw is None:
-            raw = self.raw_values
-        raw = self.strip_lines(raw)
-        passportlist = []
-        tmppassport = ""
-        for line in raw:
-            if len(line) > 1:
-                tmppassport += line + " "
-            else:
-                passportlist.append(tmppassport.strip())
-                tmppassport = ""
-        passportlist.append(tmppassport.strip())
-        self.processed_values = passportlist
-
-        passportlistkv = []
-        for passport in passportlist:
-            passportlistkv.append(parse_passport(passport))
-        return passportlistkv
-
     def list_to_intlist(self, raw=None):
         if raw is None:
             raw = self.raw_values
@@ -97,31 +56,6 @@ class LoadValues:
         coords = [tuple(map(int, list(re.findall(r'-?\d+', ln)))) for ln in raw]
         self.processed_values = coords
         return coords
-
-    def get_rules(self, raw=None):
-        rules = []
-        if raw is None:
-            raw = self.raw_values
-        for ln in raw:
-            rules.append(parse_rule(ln))
-        return rules
-
-    def get_reactions(self, raw=None):
-        reactions = {}
-        if raw is None:
-            raw = self.raw_values
-        for ln in raw:
-            parse = ln.split(" =>")
-            components = [parse_element(element) for element in parse[0].split(",")]
-            (result, qr) = parse_element(parse[1])
-            reactions[result] = ((result, qr), components)
-        return reactions
-
-    def get_digit_list(self, raw=None):
-        if raw is None:
-            raw = self.raw_values
-        tmp = str(raw[0]).strip()
-        return [int(i) for i in list(tmp)]
 
     def strip_lines(self, raw=None):
         if raw is None:
