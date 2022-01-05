@@ -5,6 +5,7 @@ def parse_direction(element):
     (direction, quantity) = element.strip().split(" ")
     return direction, int(quantity)
 
+
 class LoadValues:
     file = 'input'
     raw_values = None
@@ -62,12 +63,8 @@ class LoadValues:
             coords = ln.split(' -> ')
             start = list(map(int, coords[0].split(',')))
             end = list(map(int, coords[1].split(',')))
-            tmpRes.append(((start[0], start[1]),(end[0], end[1])))
+            tmpRes.append(((start[0], start[1]), (end[0], end[1])))
         return tmpRes
-
-
-        self.processed_values = coords
-        return coords
 
     def get_3d_coords(self, raw=None):
         if raw is None:

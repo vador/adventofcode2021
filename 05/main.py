@@ -1,17 +1,17 @@
-import logging
 import cProfile
+import logging
+
 from loadValues import LoadValues
 
-from operator import add
 
-def displayField(localfield):
+def display_field(localfield):
     mx = 0
     my = 0
-    for (i,j) in localfield:
+    for (i, j) in localfield:
         mx = max(i, mx)
         my = max(j, my)
-    for j in range(my+1):
-        for i in range(mx+1):
+    for j in range(my + 1):
+        for i in range(mx + 1):
             if (i, j) in localfield:
                 res = str(localfield[(i, j)])
             else:
@@ -20,7 +20,7 @@ def displayField(localfield):
         print()
 
 
-def getCoordListForLine(start, end, diagonal=False):
+def get_coord_list_for_line(start, end, diagonal=False):
     (x1, y1) = start
     (x2, y2) = end
     line = []
@@ -32,7 +32,7 @@ def getCoordListForLine(start, end, diagonal=False):
             (a, b) = (y1, y2)
             (a, b) = (min(a, b), max(a, b))
             for j in range(a, b + 1):
-                line.append((i,j))
+                line.append((i, j))
     elif diagonal:
         if x2 < x1:
             (x1, y1) = end
@@ -41,8 +41,8 @@ def getCoordListForLine(start, end, diagonal=False):
             incr = -1
         else:
             incr = 1
-        for i in range(x2-x1+1):
-            line.append((x1+i, y1+(incr*i)))
+        for i in range(x2 - x1 + 1):
+            line.append((x1 + i, y1 + (incr * i)))
 
     return line
 
@@ -55,15 +55,15 @@ def main():
     field = {}
 
     for (start, end) in coords:
-        for coord in getCoordListForLine(start, end):
+        for coord in get_coord_list_for_line(start, end):
             if coord in field:
                 field[coord] += 1
             else:
                 field[coord] = 1
 
     for k in field:
-        if (field[k]>1):
-            number +=1
+        if field[k] > 1:
+            number += 1
     # displayField(field)
 
     print("Star 1 : ", number)
@@ -71,8 +71,8 @@ def main():
     number = 0
     field = {}
     for (start, end) in coords:
-        print((start, end), getCoordListForLine(start, end, diagonal=True))
-        for coord in getCoordListForLine(start, end, diagonal=True):
+        print((start, end), get_coord_list_for_line(start, end, diagonal=True))
+        for coord in get_coord_list_for_line(start, end, diagonal=True):
             if coord in field:
                 field[coord] += 1
             else:
@@ -80,11 +80,10 @@ def main():
     # displayField(field)
 
     for k in field:
-        if (field[k] > 1):
+        if field[k] > 1:
             number += 1
 
     print("Star 2 : ", number)
-
 
 
 ##
